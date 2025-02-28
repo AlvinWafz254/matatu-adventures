@@ -1,2 +1,128 @@
-index.html
-game.js
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Matatu Adventures</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0efe9;
+      color: #333;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #d7385e;
+    }
+    .scene-text {
+      font-size: 1.2em;
+      margin: 20px 0;
+    }
+    .choices {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .choice-button {
+      background-color: #249c86;
+      color: #fff;
+      border: none;
+      padding: 15px 25px;
+      margin: 10px 0;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 80%;
+      max-width: 300px;
+    }
+    .choice-button:hover {
+      background-color: #1b7a66;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Matatu Adventures</h1>
+  <div id="game">
+    <!-- Game content will be injected here -->
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
+const gameContainer = document.getElementById('game');
+
+const scenes = {
+  start: {
+    text: "Welcome to the bustling streets of Nairobi! You're the proud driver of a brand-new matatu. What's your first move?",
+    choices: [
+      { text: "Design dazzling graffiti on your bus", next: "graffiti" },
+      { text: "Pick up excited passengers at the market", next: "market" },
+      { text: "Play upbeat music to attract a crowd", next: "music" }
+    ]
+  },
+  graffiti: {
+    text: "You visit the best artist in town. Your matatu now shines with colors and patterns!",
+    choices: [
+      { text: "Enter a matatu parade", next: "parade" },
+      { text: "Offer art classes to kids", next: "artClasses" },
+      { text: "Drive through the city showcasing the art", next: "cityTour" }
+    ]
+  },
+  market: {
+    text: "The market is alive with chatter. Passengers hop on, eager for a ride.",
+    choices: [
+      { text: "Tell funny stories during the ride", next: "stories" },
+      { text: "Race another matatu for fun", next: "race" },
+      { text: "Take a scenic route by the savannah", next: "savannah" }
+    ]
+  },
+  music: {
+    text: "Your tunes are a hit! People are dancing even before they board.",
+    choices: [
+      { text: "Host a mobile dance party", next: "danceParty" },
+      { text: "Collaborate with street musicians", next: "musicians" },
+      { text: "Record a song with passengers", next: "recordSong" }
+    ]
+  },
+  // Additional scenes...
+  parade: {
+    text: "The parade is spectacular! Matatus lined up, each more vibrant than the last.",
+    choices: [
+      { text: "Win the best design award", next: "award" },
+      { text: "Start a fireworks display", next: "fireworks" },
+      { text: "Invite everyone for a group photo", next: "groupPhoto" }
+    ]
+  },
+  // Ending scenes or looping back to existing scenes...
+  award: {
+    text: "Congratulations! Your matatu wins the grand prize. The crowd cheers wildly.",
+    choices: [
+      { text: "Take a victory lap", next: "cityTour" },
+      { text: "Thank the artist publicly", next: "artClasses" },
+      { text: "Celebrate with new friends", next: "danceParty" }
+    ]
+  },
+  // More scenes can be added here
+};
+
+function startGame() {
+  showScene('start');
+}
+
+function showScene(sceneKey) {
+  const scene = scenes[sceneKey];
+  gameContainer.innerHTML = `
+    <div class="scene-text">${scene.text}</div>
+    <div class="choices">
+      ${scene.choices.map(choice => `
+        <button class="choice-button" onclick="showScene('${choice.next}')">
+          ${choice.text}
+        </button>
+      `).join('')}
+    </div>
+  `;
+}
+
+startGame();
+
